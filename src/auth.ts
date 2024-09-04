@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 if(email === 'test123@gmail.com' && password === 'test123'){ 
                     return {
                         id: 1,
-                        name: 'Pak',
+                        name: 'Test User',
                         email: 'test123@gmail.com',
                         image_url: 'https://i.ibb.co/dp56wRB/pak-heart.jpg'
                     }
