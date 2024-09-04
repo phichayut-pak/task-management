@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { signIn } from "next-auth/react"
+import { SignIn } from "@/lib/auth/auth-action"
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
@@ -21,11 +21,6 @@ export default function LoginCard() {
     const router = useRouter()
     const { data: session, status } = useSession()
 
-    useEffect(() => {
-        if (session) {
-            router.push('/')
-        }
-    }, [session, router])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
@@ -53,7 +48,7 @@ export default function LoginCard() {
 
         setLoading(true)
 
-        const result = await signIn('credentials', {
+        const result = await SignIn('credentials', {
             redirect: false,
             email,
             password
@@ -152,7 +147,7 @@ export default function LoginCard() {
         
 
                 <div className="flex justify-center items-center">
-                    <button type="submit" className="w-full py-3.5 rounded-lg bg-purple-500 text-white font-bold">
+                    <button  type="submit" className="w-full py-3.5 rounded-lg bg-purple-500 text-white font-bold">
                         {loading ? "Loading..." : "Sign in"}
                     </button>
                 </div>

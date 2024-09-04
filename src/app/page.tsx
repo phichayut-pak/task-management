@@ -1,30 +1,35 @@
-"use client"
-import { useSession } from "next-auth/react";
-import { useRouter} from "next/navigation";
-import { useEffect } from "react";
+
+import { auth } from "@/auth";
 import Navbar from "./components/Navbar";
+import ClientComponent from "./components/ClientComponent";
+import WelcomeCard from "./components/WelcomeCard";
+import { redirect } from "next/navigation";
+import axios from "axios";
 
 
-export default function Home() {
-  
-  const { data: session, status} = useSession()
-  const router = useRouter()
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push('login')
-    }
-  }, [status, router])
+export default async function Home() {
 
-  if(status === "loading") {
-    return <div>Loading...</div>
+  const session = await auth()
+
+  if(!session) {
+    redirect('/login')
   }
 
 
 
   return (
     <main className="min-h-screen">
-      <Navbar></Navbar>
+      <Navbar />
+
+    
+      <div className="w-full flex justify-center items-center p-5 mb-5">
+        <WelcomeCard session={session} />
+      </div>
+
+      
+      <ClientComponent></ClientComponent>
+
     </main>
   );
 }

@@ -1,12 +1,12 @@
+"use server"
 import LoginCard from "../components/LoginCard"
-import { getServerSession } from "next-auth"
-import { redirect } from 'next/navigation'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+import { useEffect } from "react"
+import { auth } from "@/auth"
+import { redirect } from "next/navigation"
 
 
 export default async function Login() {
-    const session = await getServerSession(authOptions)
-
+    const session = await auth()
     if(session) {
         redirect('/')
     }
