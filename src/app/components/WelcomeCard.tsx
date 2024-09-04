@@ -1,7 +1,8 @@
+"use client"
 import Image from "next/image"
 
+
 export default function WelcomeCard({ session }: any) {
-    console.log(session)
 
     return (
         <div className="w-full sm:max-w-lg flex justify-center items-center bg-[#FDF2F8] p-7 rounded-xl gap-x-8">
@@ -9,7 +10,7 @@ export default function WelcomeCard({ session }: any) {
                 <Image 
                     layout="fill" 
                     objectFit="cover" 
-                    src={session.user.image_url} 
+                    src={session.user.image_url ? session.user.image_url : '/blank_image.jpg'} 
                     alt="profile image" 
                     className="rounded-full" // This ensures the image is also rounded
                 />

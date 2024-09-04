@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import StatusBar from "./StatusBar";
 import TaskCard from "./TaskCard";
 import TaskCardSkeleton from "./TaskCardSkeleton";
+import NoTask from "./NoTask";
 
 const LIMIT = 10
 
@@ -56,6 +57,7 @@ const mergeTasksByDate = (prevGroupedTasks: any, newTasks: any) => {
 export default function ClientComponent() {
     const [todoTasks, setTodoTasks]: any = useState([])
     const [groupedTodoTasks, setGroupedTodoTasks]: any = useState({})
+    const [allowNoTask, setAllowNoTask] = useState(false) // check whether it's fetched or not, fetched -> no task can show else can't
 
     const [doingTasks, setDoingTasks]: any = useState([])
     const [groupedDoingTasks, setGroupedDoingTasks]: any = useState({})
@@ -87,7 +89,6 @@ export default function ClientComponent() {
                     }
                 });
             
-                console.log(updatedTasks); // You can use this for debugging
                 return updatedTasks; // Return the updated tasks object
                 });
         } else if (status === "DOING") {
@@ -106,7 +107,6 @@ export default function ClientComponent() {
                     }
                 });
             
-                console.log(updatedTasks); // You can use this for debugging
                 return updatedTasks; // Return the updated tasks object
                 });
         } else if (status == "DONE") {
@@ -125,10 +125,11 @@ export default function ClientComponent() {
                     }
                 });
             
-                console.log(updatedTasks); // You can use this for debugging
                 return updatedTasks; // Return the updated tasks object
                 });
         }
+
+        setAllowNoTask(true)
     };
     
 
@@ -178,6 +179,7 @@ export default function ClientComponent() {
         } else if(status === "DONE" && doneTasks.length === 0) {
             fetchTasks(0, "DONE")
         }
+
     }, [status])
 
     // Infinite Scroll
@@ -203,8 +205,7 @@ export default function ClientComponent() {
             }
         }
     }, [pageNumbers, totalPages, status, loading])
-
-
+    
 
     return (
         <div className="w-full flex justify-center items-center px-5 flex-col">
@@ -222,6 +223,13 @@ export default function ClientComponent() {
                     ))}
                 </div>
             ))}
+
+            {allowNoTask && status === "TODO" && Object.keys(groupedTodoTasks).length === 0 && <NoTask />}
+            {allowNoTask && status === "DOING" && Object.keys(groupedDoingTasks).length === 0 && <NoTask />}
+            {allowNoTask && status === "DONE" && Object.keys(groupedDoneTasks).length === 0 && <NoTask />}
+        
+
+            
 
             {status === "DOING" && Object.keys(groupedDoingTasks).map((date:any) => (
                 <div className="w-full md:max-w-3xl my-2" key={date}>
