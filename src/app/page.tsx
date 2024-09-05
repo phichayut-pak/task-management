@@ -5,6 +5,7 @@ import ClientComponent from "./components/ClientComponent";
 import WelcomeCard from "./components/WelcomeCard";
 import { redirect } from "next/navigation";
 import axios from "axios";
+import ToTopBtn from "./components/ToTopBtn";
 
 
 
@@ -21,6 +22,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       <Navbar />
+      <ToTopBtn />
 
     
       <div className="w-full flex justify-center items-center p-5 mb-5">
@@ -29,7 +31,6 @@ export default async function Home() {
 
       
       <ClientComponent></ClientComponent>
-
     </main>
   );
 }
